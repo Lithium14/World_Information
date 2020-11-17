@@ -4,13 +4,13 @@
     <h1 style="color: #61DAFB" class="text-center">Population Mondiale</h1>
 
     <v-row v-if="loading">
-      <v-col v-for="p in 4" :key="p">
+      <v-col v-for="p in 20" :key="p" class="col-3">
         <v-skeleton-loader type="card"></v-skeleton-loader>
       </v-col>
     </v-row>
 
     <v-row v-else>
-      <v-col v-for="(country, index) in countries" :key="index" class="col-3" max-height="340px">
+      <v-col v-for="(country, index) in countries" :key="index" class="col-3">
         <card :card="country"></card>
       </v-col>
     </v-row>
@@ -21,10 +21,9 @@
 <script>
 
 import card from '@/components/card'
-import cardDetail from '@/components/cardDetail'
 
 export default {
-  components: { card, cardDetail },
+  components: { card },
   data() {
     return {
       countries: {},
