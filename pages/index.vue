@@ -1,8 +1,7 @@
 <template>
   <v-container>
-    <cardDetail />
     <h1 style="color: #61DAFB" class="text-center">Population Mondiale</h1>
-
+    <search @onsearch-country="onSearchCountry"></search>
     <v-row v-if="loading">
       <v-col v-for="p in 20" :key="p" class="col-3">
         <v-skeleton-loader type="card"></v-skeleton-loader>
@@ -10,7 +9,7 @@
     </v-row>
 
     <v-row v-else>
-      <v-col v-for="(country, index) in countries" :key="index" class="col-3">
+      <v-col v-for="(country, index) in searchResult" :key="index" class="col-12 col-md-4 col-lg-3 col-sm-6">
         <card :card="country"></card>
       </v-col>
     </v-row>
@@ -21,13 +20,15 @@
 <script>
 
 import card from '@/components/card'
+import search from '@/components/search'
 
 export default {
-  components: { card },
+  components: { card, search },
   data() {
     return {
-      countries: {},
+      countries: [],
       loading: false,
+      searchResult: []
     }
   },
   async fetch() {
@@ -39,7 +40,12 @@ export default {
       console.log(error)
     }
     this.loading = false
-  }
+  },
+  methods: {
+    onSearchCountry(value) {
+      this.searchResult = this.countries.filter(x => x.name.toLowerCase().includes(value.toLowerCase()))
+    }
+  },
 }
 </script>
 
