@@ -1,15 +1,15 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <h1 style="color: #61DAFB" class="text-center">Population Mondiale</h1>
     <search @onsearch-country="onSearchCountry"></search>
     <v-row v-if="loading">
-      <v-col v-for="p in 20" :key="p" class="col-3">
+      <v-col v-for="p in 20" :key="p" class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
         <v-skeleton-loader type="card"></v-skeleton-loader>
       </v-col>
     </v-row>
 
     <v-row v-else>
-      <v-col v-for="(country, index) in searchResult" :key="index" class="col-12 col-md-4 col-lg-3 col-sm-6">
+      <v-col v-for="(country, index) in searchResult" :key="index" class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
         <card :card="country"></card>
       </v-col>
     </v-row>
@@ -28,14 +28,14 @@ export default {
     return {
       countries: [],
       loading: false,
-      searchResult: []
+      searchResult: [],
+      isSearch: false,
     }
   },
   async fetch() {
     try {
       this.loading = true
       this.countries = await fetch('https://restcountries.eu/rest/v2/all').then(res => res.json())
-      console.log(this.countries)
     } catch (error) {
       console.log(error)
     }
@@ -46,6 +46,11 @@ export default {
       this.searchResult = this.countries.filter(x => x.name.toLowerCase().includes(value.toLowerCase()))
     }
   },
+  computed: {
+    displayCard() {
+      return this.isSearch ? this.searchResult : this.countries
+    }
+  }
 }
 </script>
 
