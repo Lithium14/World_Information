@@ -72,7 +72,7 @@ export default {
 }
 
 .v-card:not(.on-hover) {
-  opacity: 0.7;
+  opacity: 0.5;
  }
 
 .show-btns {

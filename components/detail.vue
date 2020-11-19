@@ -33,7 +33,7 @@
 
           <v-row class="ma-0">
             <v-col class="col-6">
-              <span> Superficie : {{ detail.area }} km²</span>
+              <span> Superficie : {{ formatNumber(detail.area) }} km²</span>
             </v-col>
 
             <v-col class=col-6>
@@ -76,14 +76,10 @@ export default {
       default: () => {}
     }
   },
-  computed: {
-    currentItem() {
-      return this.detail.find(item => item.path === this.$route.params.id)
-    }
-  }
+  methods: {
+    formatNumber(num) {
+      return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    },
+  },
 }
 </script>
-
-<style scoped>
-
-</style>

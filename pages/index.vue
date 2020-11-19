@@ -16,10 +16,18 @@
     </v-row>
 
     <v-row v-else>
-      <v-col v-for="(country, index) in searchResult" :key="index" class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+      <v-col v-for="(country, index) in displayCard" :key="index" class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
         <card :card="country" @seeDetails="seeDetails"></card>
       </v-col>
     </v-row>
+
+    <div class="text-center">
+      <v-pagination
+        v-model="pagePagination"
+        :length="lengthPagination"
+        circle
+      ></v-pagination>
+  </div>
 
   </v-container>
 </template>
@@ -39,13 +47,18 @@ export default {
       searchResult: [],
       isSearch: false,
       isModalDetailVisible: false,
-      detail: {}
+      detail: {},
+      pagePagination:1,
+      limitPagination: 12
     }
   },
   async fetch() {
+    this.pagePagination = 1
     try {
       this.loading = true
       this.countries = await fetch('https://restcountries.eu/rest/v2/all').then(res => res.json())
+      this.lengthPagination = Math.ceil(this.countries.length/ this.limitPagination);
+
     } catch (error) {
       console.log(error)
     }
@@ -53,6 +66,7 @@ export default {
   },
   methods: {
     onSearchCountry(value) {
+      this.isSearch = true
       this.searchResult = this.countries.filter(x => x.name.toLowerCase().includes(value.toLowerCase()))
     },
     seeDetails(value) {
@@ -65,7 +79,9 @@ export default {
   },
   computed: {
     displayCard() {
-      return this.isSearch ? this.searchResult : this.countries
+      const start = this.pagePagination * this.limitPagination - this.limitPagination,
+        end = start + this.limitPagination;
+      return this.isSearch ? this.searchResult.slice(start, end) : this.countries.slice(start, end);
     }
   }
 }
