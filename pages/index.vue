@@ -49,11 +49,11 @@ export default {
       isModalDetailVisible: false,
       detail: {},
       pagePagination:1,
-      limitPagination: 12
+      limitPagination: 12,
+      lengthPagination: 1
     }
   },
   async fetch() {
-    this.pagePagination = 1
     try {
       this.loading = true
       this.countries = await fetch('https://restcountries.eu/rest/v2/all').then(res => res.json())

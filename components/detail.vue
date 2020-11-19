@@ -48,11 +48,11 @@
 
           <v-row class="ma-0">
             <v-col class="col-6">
-              <span> Indicatif : +{{ detail.callingCodes }} </span>
+              <span> Indicatif : +{{ detail.callingCodes[0] }} </span>
             </v-col>
 
             <v-col class="col-6">
-              <span> Fuseau horaire : {{ detail.timezones }} </span>
+              <span> Fuseau horaire : {{ detail.timezones[0] }} </span>
             </v-col>
           </v-row>
 
