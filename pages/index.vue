@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="mt-12">
     <h1 style="color: #61DAFB" class="text-center">Population Mondiale</h1>
-    <search @onsearch-country="onSearchCountry"></search>
+    <search @onsearch-country="onSearchCountry" class="mt-12"></search>
     <v-row v-if="loading">
       <v-col v-for="p in 20" :key="p" class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
         <v-skeleton-loader type="card"></v-skeleton-loader>
@@ -10,7 +10,7 @@
 
     <v-row v-else>
       <v-col v-for="(country, index) in searchResult" :key="index" class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-        <card :card="country"></card>
+        <card :card="country" @seeDetails="seeDetails"></card>
       </v-col>
     </v-row>
 
@@ -44,6 +44,9 @@ export default {
   methods: {
     onSearchCountry(value) {
       this.searchResult = this.countries.filter(x => x.name.toLowerCase().includes(value.toLowerCase()))
+    },
+    seeDetails() {
+      
     }
   },
   computed: {
