@@ -1,7 +1,14 @@
 <template>
   <v-container fluid class="mt-12">
+
+    <v-dialog v-model="isModalDetailVisible" width="450px" >
+      <detail :detail="detail" @closedetail-card="closeDetailCard"></detail>
+    </v-dialog>
+
     <h1 style="color: #61DAFB" class="text-center">Population Mondiale</h1>
+
     <search @onsearch-country="onSearchCountry" class="mt-12"></search>
+
     <v-row v-if="loading">
       <v-col v-for="p in 20" :key="p" class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
         <v-skeleton-loader type="card"></v-skeleton-loader>
@@ -21,15 +28,18 @@
 
 import card from '@/components/card'
 import search from '@/components/search'
+import detail from '@/components/detail'
 
 export default {
-  components: { card, search },
+  components: { card, search, detail },
   data() {
     return {
       countries: [],
       loading: false,
       searchResult: [],
       isSearch: false,
+      isModalDetailVisible: false,
+      detail: {}
     }
   },
   async fetch() {
@@ -45,8 +55,12 @@ export default {
     onSearchCountry(value) {
       this.searchResult = this.countries.filter(x => x.name.toLowerCase().includes(value.toLowerCase()))
     },
-    seeDetails() {
-      
+    seeDetails(value) {
+      this.detail = value;
+      this.isModalDetailVisible = true
+    },
+    closeDetailCard() {
+      this.isModalDetailVisible = !this.isModalDetailVisible
     }
   },
   computed: {

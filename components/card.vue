@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container >
     <v-hover v-slot="{ hover }">
       <v-card style="background :linear-gradient(90deg,#61DAFB 0%, rgb(10, 167, 211) 100%)"
         :elevation="hover ? 24 : 2" shaped width="450px" min-height="100px" :class="{ 'on-hover': hover }">
@@ -26,7 +26,7 @@
           <v-col class="pt-0">
             <v-btn :class="{ 'show-btns': hover }"
                     color="transparent" icon block
-                    @click="seeDetails">
+                    @click="seeDetails()">
               Voir plus
             </v-btn>
           </v-col>
@@ -57,7 +57,7 @@ export default {
       return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
     },
     seeDetails() {
-      this.$emit('seeDetails')
+      this.$emit('seeDetails', this.card)
     }
 
   },
